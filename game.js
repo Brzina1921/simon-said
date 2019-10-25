@@ -11,7 +11,7 @@ $("body").ready(function(){
       setTimeout(function(){
           playSound("menu");
       }, 500);
-})
+});
 
 $(document).keypress(function(){
   if(!started){
