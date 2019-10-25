@@ -5,8 +5,13 @@ var userClickedPattern = [];
 var level = 0;
 var started = false;
 var highScore = 0;
-var highScoreTemp = 0;
 var currentScore = 0;
+
+$("body").ready(function(){
+      setTimeout(function(){
+          playSound("menu");
+      }, 500);
+})
 
 $(document).keypress(function(){
   if(!started){
@@ -56,7 +61,6 @@ function checkAnswer(currentLevel){
     console.log("success");
     if(userClickedPattern.length === gamePattern.length){
       setTimeout(function(){
-        highScoreTemp++;
         currentScore++;
         if(currentScore > highScore){
         $(".p-highscore").text("Your highscore: " + currentScore);
