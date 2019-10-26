@@ -6,19 +6,30 @@ var level = 0;
 var started = false;
 var highScore = 0;
 var currentScore = 0;
+var menu = true;
+
+if(menu = true){
+  $("#level-title").text("SIMON SAID");
+  $("#returnToMenu").hide();
+}
+
+$(".btn").hide();
 
 $("body").ready(function(){
       setTimeout(function(){
           playSound("menu");
-      }, 500);
+      }, 100);
 });
 
 $(document).keypress(function(){
+  if(!menu){
   if(!started){
     $("#level-title").text("Level " + level);
     nextSequence();
     started = true;
+    $("#returnToMenu").hide();
   }
+}
 });
 
 function nextSequence(){
@@ -76,6 +87,7 @@ function checkAnswer(currentLevel){
     $("body").addClass("game-over");
 
     playSound("wrong");
+    $("#returnToMenu").fadeIn(600);
     if(currentScore > highScore){
       highScore = currentScore;
       $(".p-highscore").text("Your highscore: " + highScore);
@@ -102,3 +114,51 @@ function startOver(){
   currentScore = 0;
   $(".p-currentscore").text("Your current score: " + currentScore);
 }
+
+$(".menuBtn").mouseenter(function(){
+  var userHoverOption = $(this).attr("id");
+  $("#" + userHoverOption).css("color", "white");
+  $("#" + userHoverOption).addClass("textBorder");
+});
+$(".menuBtn").mouseleave(function(){
+  var userHoverOption = $(this).attr("id");
+  $("#" + userHoverOption).css("color", "black");
+});
+
+$(".menuBtn").click(function(){
+  var userChosenOption = $(this).attr("id");
+  animatePress(userChosenOption);
+  if(userChosenOption === "startGame"){
+    $(".btn").fadeIn(500);
+    menu = false;
+
+    $(".menuBtn").fadeOut(300);
+
+    setTimeout(function () {
+      if(!started){
+        $("#level-title").text("Level " + level);
+        nextSequence();
+        started = true;
+      }
+    }, 800);
+      }
+});
+
+$(".returnToMenu").click(function(){
+
+  $(".btn").hide();
+  $(".menuBtn").fadeIn(700);
+  $(".returnToMenu").hide();
+  menu = true;
+  $("#level-title").text("SIMON SAID");
+});
+
+$(".returnToMenu").mouseenter(function(){
+  $(this).css("background-color", "black")
+  $(this).css("color", "#FEF2BF")
+});
+
+$(".returnToMenu").mouseleave(function(){
+  $(this).css("background-color", "#FEF2BF")
+  $(this).css("color", "black")
+});

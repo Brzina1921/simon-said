@@ -9,11 +9,27 @@
 </head>
 
 <body>
+  <audio src="sounds/menu.mp3" id="my_audio" loop = "loop"></audio>
   <h1 id="level-title">Press A Key to Start</h1>
+  <div type="button" id="returnToMenu" class="returnToMenu">
+  <p class="returnToMenuText">RETURN TO MENU</p>
+  </div>
   <p class="p-highscore">Your highscore: 0</p>
   <p class="p-currentscore">Your current score: 0</p>
   <div class="container">
-    <div lass="row">
+
+    <div type="button" id="startGame" class="menuBtn">
+    <p class="textstartGame">START GAME</p>
+    </div>
+    <div type="button" id="options" class="menuBtn">
+    <p class="textoptions">OPTIONS</p>
+    </div>
+
+    <div type="button" id="credits" class="menuBtn">
+    <p class="textcredits">CREDITS</p>
+    </div>
+
+    <div class="row">
 
       <div type="button" id="green" class="btn green">
 
