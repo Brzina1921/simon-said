@@ -17,7 +17,7 @@ $(".btn").hide();
 
 $("body").ready(function(){
       setTimeout(function(){
-          playSound("menu");
+          playBackgroundMusic("menu");
       }, 100);
 });
 
@@ -43,20 +43,26 @@ function nextSequence(){
 
   $("#" + randomChosenColour).fadeIn(100).fadeOut(100).fadeIn(100);
 
-  playSound(randomChosenColour);
+  playSound(randomChosenColour + ".mp3");
 }
 
 $(".btn").click(function(){
   var userChosenColour = $(this).attr("id");
   userClickedPattern.push(userChosenColour);
-  playSound(userChosenColour);
+  playSound(userChosenColour + ".mp3");
   animatePress(userChosenColour);
   checkAnswer(userClickedPattern.length-1);
 });
 
 function playSound(name){
-  var audio = new Audio("sounds/" + name + ".mp3");
+  var audio = new Audio("sounds/" + name);
   audio.play();
+}
+
+function playBackgroundMusic(name){
+  var audio2 = new Audio("sounds/" + name + ".wav");
+  audio2.loop = true;
+  audio2.play();
 }
 
 function animatePress(currentColour){
@@ -86,8 +92,7 @@ function checkAnswer(currentLevel){
     if(started === true){
     $("body").addClass("game-over");
 
-    playSound("wrong");
-    $("#returnToMenu").fadeIn(600);
+    playSound("wrong.mp3");
     if(currentScore > highScore){
       highScore = currentScore;
       $(".p-highscore").text("Your highscore: " + highScore);
@@ -98,6 +103,10 @@ function checkAnswer(currentLevel){
     }, 200);
 
     $("#level-title").text("Game Over!");
+
+    setTimeout(function () {
+       $("#returnToMenu").fadeIn(500);
+    }, 2000);
 
     setTimeout(function () {
       startOver();
@@ -128,6 +137,7 @@ $(".menuBtn").mouseleave(function(){
 $(".menuBtn").click(function(){
   var userChosenOption = $(this).attr("id");
   animatePress(userChosenOption);
+  playSound("click.wav")
   if(userChosenOption === "startGame"){
     $(".btn").fadeIn(500);
     menu = false;
@@ -146,6 +156,7 @@ $(".menuBtn").click(function(){
 
 $(".returnToMenu").click(function(){
 
+  playSound("click.wav")
   $(".btn").hide();
   $(".menuBtn").fadeIn(700);
   $(".returnToMenu").hide();
