@@ -7,10 +7,13 @@ var started = false;
 var highScore = 0;
 var currentScore = 0;
 var menu = true;
+var dif = 600;
 
 if(menu = true){
   $("#level-title").text("SIMON SAID");
   $("#returnToMenu").hide();
+  $(".optionsBtn").hide();
+  $("#optionsReturn").hide();
 }
 
 $(".btn").hide();
@@ -40,10 +43,21 @@ function nextSequence(){
   var randomNumber = Math.floor(Math.random() * 4);
   var randomChosenColour = buttonColours[randomNumber];
   gamePattern.push(randomChosenColour);
+  setTimeout(function() {
+    displayPatter(0, gamePattern);
+  }, 500);
+}
 
-  $("#" + randomChosenColour).fadeIn(100).fadeOut(100).fadeIn(100);
+function displayPatter(index, array) {
 
-  playSound(randomChosenColour + ".mp3");
+  if(index >= array.length)
+    return;
+
+  $("#" + gamePattern[index]).fadeOut(150).fadeIn(150);
+  playSound(gamePattern[index] + ".mp3");
+  index ++;
+
+  setTimeout(displayPatter.bind({}, index, array), dif);
 }
 
 $(".btn").click(function(){
@@ -137,7 +151,7 @@ $(".menuBtn").mouseleave(function(){
 $(".menuBtn").click(function(){
   var userChosenOption = $(this).attr("id");
   animatePress(userChosenOption);
-  playSound("click.wav")
+  playSound("click.wav");
   if(userChosenOption === "startGame"){
     $(".btn").fadeIn(500);
     menu = false;
@@ -152,6 +166,42 @@ $(".menuBtn").click(function(){
       }
     }, 800);
       }
+
+  else if(userChosenOption === "options"){
+
+    $("#level-title").text("OPTIONS");
+    $(".menuBtn").hide();
+    $(".optionsBtn").fadeIn();
+    $("#optionsReturn").show();
+  }
+});
+
+$(".optionsBtn").click(function(){
+  var userChosenDif = $(this).attr("id");
+  animatePress(userChosenDif);
+  playSound("click.wav");
+  if(userChosenDif === "optionsEasy"){
+
+    dif = 900;
+  }
+
+  else if(userChosenDif === "optionsMedium"){
+    dif = 600;
+  }
+
+  else if(userChosenDif === "optionsHard"){
+    dif = 300;
+  }
+});
+
+$(".optionsBtn").mouseenter(function(){
+  var userHoverOption = $(this).attr("id");
+  $("#" + userHoverOption).css("color", "white");
+  $("#" + userHoverOption).addClass("textBorder");
+});
+$(".optionsBtn").mouseleave(function(){
+  var userHoverOption = $(this).attr("id");
+  $("#" + userHoverOption).css("color", "black");
 });
 
 $(".returnToMenu").click(function(){
@@ -160,8 +210,10 @@ $(".returnToMenu").click(function(){
   $(".btn").hide();
   $(".menuBtn").fadeIn(700);
   $(".returnToMenu").hide();
+  $(".optionsBtn").hide();
   menu = true;
   $("#level-title").text("SIMON SAID");
+  $("#optionsReturn").hide();
 });
 
 $(".returnToMenu").mouseenter(function(){
