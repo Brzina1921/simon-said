@@ -9,7 +9,7 @@ var currentScore = 0;
 var menu = true;
 var dif = 600;
 
-if(menu = true){
+if(menu === true){
   $("#level-title").text("SIMON SAID");
   $("#returnToMenu").hide();
   $(".optionsBtn").hide();
